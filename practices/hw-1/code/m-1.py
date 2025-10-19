@@ -1,6 +1,6 @@
 # ==============================
 # Burada öncelikle sabit  bir seed  değeri ile rastgele dizi üretiyorum ve bunları grafikleştiriyorum.
-# graphs klasörüne bu koddan çalışan grafiğin ekran görüntüsünü ekledim.
+# graphs klasörüne bu koddan çalışan grafiğin ekran görüntüsünü ekledim. (m-1.png)
 # ==============================
 
 import random
@@ -24,8 +24,6 @@ for i in range(NUM_POINTS):
 # 4. Görselleştirme
 x_coords = [p[0] for p in points]
 y_coords = [p[1] for p in points]
-
-
 
 plt.figure(figsize=(5, 5))
 plt.scatter(x_coords, y_coords, color='pink', s=50)
