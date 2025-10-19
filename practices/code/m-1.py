@@ -25,8 +25,19 @@ for i in range(NUM_POINTS):
 x_coords = [p[0] for p in points]
 y_coords = [p[1] for p in points]
 
+
+
 plt.figure(figsize=(5, 5))
 plt.scatter(x_coords, y_coords, color='pink', s=50)
+
+# Takip etmek için her noktaya numara verdim
+for i, (x, y) in enumerate(points):
+    plt.text(x + 1, y + 1, str(i), fontsize=12, color='lightpink')
+
+plt.title("Rastgele Noktalar")
+plt.xlabel("X koordinatı")
+plt.ylabel("Y koordinatı")
+plt.grid(True)
 plt.xlim(0, AREA_SIZE)
 plt.ylim(0, AREA_SIZE)
 plt.show()
