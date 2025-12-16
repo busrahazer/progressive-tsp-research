@@ -1,6 +1,25 @@
 # Bu kodda Genetik Algoritmanın fonksiyonlarını oluşturarak HW-4'e giriş yapıyorum.
 import random
 import matplotlib.pyplot as plt
+import math
+
+random.seed(42)
+N_NODES = 15
+AREA_SIZE = 50
+
+points = [(random.uniform(0, AREA_SIZE),
+           random.uniform(0, AREA_SIZE)) for _ in range(N_NODES)]
+
+def compute_distance_matrix(points):
+    n = len(points)
+    dist_matrix = [[0.0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                dist_matrix[i][j] = math.dist(points[i], points[j])
+    return dist_matrix
+
+dist_matrix = compute_distance_matrix(points)
 
 def create_random_tour(n_nodes):
     """
@@ -94,3 +113,47 @@ def solve_tsp_ga(dist_matrix,
 
     return best_tour, best_length
 
+def solve_tsp_ga_with_history(dist_matrix,
+                              pop_size=50,
+                              generations=200,
+                              mutation_rate=0.1):
+    """
+    Genetic Algorithm + jenerasyon bazlı en iyi çözüm kaydı
+    """
+    n_nodes = len(dist_matrix)
+    population = initial_population(pop_size, n_nodes)
+
+    best_length = float('inf')
+    best_history = []  # Her jenerasyondaki en iyi mesafe
+
+    for gen in range(generations):
+        new_population = []
+
+        for _ in range(pop_size):
+            p1 = tournament_selection(population, dist_matrix)
+            p2 = tournament_selection(population, dist_matrix)
+
+            child = crossover(p1, p2)
+            mutate(child, mutation_rate)
+
+            length = tour_length(child, dist_matrix)
+            if length < best_length:
+                best_length = length
+
+            new_population.append(child)
+
+        population = new_population
+        best_history.append(best_length)
+
+    return best_history
+
+best_lengths = solve_tsp_ga_with_history(dist_matrix)
+
+plt.figure(figsize=(7,4))
+plt.plot(best_lengths)
+plt.xlabel("Jenerasyon")
+plt.ylabel("En İyi Tur Uzunluğu")
+plt.title("Genetic Algorithm Yakınsama Grafiği (5 Nokta)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
