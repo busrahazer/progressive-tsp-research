@@ -61,36 +61,5 @@ def mutate(tour, mutation_rate=0.1):
         i, j = random.sample(range(1, len(tour)-1), 2)
         tour[i], tour[j] = tour[j], tour[i]
 
-# GA ile TSP çözümü
-def solve_tsp_ga(dist_matrix,
-                 pop_size=50,
-                 generations=200,
-                 mutation_rate=0.1):
 
-    n_nodes = len(dist_matrix)
-    population = initial_population(pop_size, n_nodes)
-
-    best_tour = None
-    best_length = float('inf')
-
-    for gen in range(generations):
-        new_population = []
-
-        for _ in range(pop_size):
-            p1 = tournament_selection(population, dist_matrix)
-            p2 = tournament_selection(population, dist_matrix)
-
-            child = crossover(p1, p2)
-            mutate(child, mutation_rate)
-
-            length = tour_length(child, dist_matrix)
-            if length < best_length:
-                best_length = length
-                best_tour = child
-
-            new_population.append(child)
-
-        population = new_population
-
-    return best_tour, best_length
 
